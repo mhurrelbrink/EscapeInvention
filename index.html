@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Invention Escape Room&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Verdana', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #fce8e6;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #5a3e36;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #f9d5d2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #6b4c3b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 6px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#map-container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 1000px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #fce8e6;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 1;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 1rem auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 3px solid #f7c8c0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#map-container svg {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.region-label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #5a3e36;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: rgba(255, 255, 255, 0.7);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 2px 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* Region labels positioned */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-europe { top: 18%; left: 52%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-asia { top: 40%; left: 72%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-northamerica { top: 28%; left: 30%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-southamerica { top: 60%; left: 28%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-africa { top: 70%; left: 55%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.label-australia { top: 85%; left: 85%; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.marker {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #f4a9a0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 3px solid #5a3e36;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translate(-50%, -50%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 3;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: transform 0.2s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.marker:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translate(-50%, -50%) scale(1.2);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 8px #f4a9a0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#info-box {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #fffaf9;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #f7c8c0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 1rem auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 8px rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #6b4c3b;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#info-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #a75d54;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.option-btn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0.25rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0.5rem 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #ffe8e6;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #a75d54;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: background 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.option-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #f4a9a0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#clues-container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #fffaf9;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-top: 2px dashed #f7c8c0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto 1rem auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #6b4c3b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#scoreboard {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #6b4c3b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto 1rem auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#confetti-canvas {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100vw;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 9999;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;🔍 Invention Escape Room&lt;/header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="map-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;svg viewBox="0 0 2000 1001" preserveAspectRatio="xMidYMid meet" aria-label="World Map" role="img"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;rect width="2000" height="1001" fill="#fff4f2" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;image href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/BlankMap-World-14.svg/2000px-BlankMap-World-14.svg.png" width="2000" height="1001" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-europe"&gt;Europe&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-asia"&gt;Asia&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-northamerica"&gt;North America&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-southamerica"&gt;South America&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-africa"&gt;Africa&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="region-label label-australia"&gt;Australia&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="info-box" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="info-title"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="description"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="question"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="options"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="clues-container" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Clues Collected: &lt;span id="clues"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="scoreboard" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Score: &lt;span id="score"&gt;0&lt;/span&gt; / &lt;span id="total"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;canvas id="confetti-canvas"&gt;&lt;/canvas&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const inventions = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "The Wheel",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented around 3500 BCE in Mesopotamia, the wheel was initially used for pottery. It quickly became vital for transportation and agriculture, allowing people to move goods and travel farther than before. The wheel's invention transformed human societies by making trade and communication easier and faster.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why was the invention of the wheel so transformative for early civilizations?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved building designs",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It enabled efficient transportation of goods and people",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It created new writing systems",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped with cooking food"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It enabled efficient transportation of goods and people",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "I",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 33.3,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 44.4</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Printing Press",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by Johannes Gutenberg in Germany around 1440, the printing press allowed books and pamphlets to be mass-produced. This invention led to the rapid spread of knowledge, ideas, and literacy across Europe, fueling the Renaissance and the Reformation.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was a major effect of the printing press?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Reduced literacy rates",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Spread of knowledge and ideas",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Improved cooking techniques",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Creation of electricity"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Spread of knowledge and ideas",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "M",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 50.1,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 8.7</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Electric Light Bulb",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in 1879 by Thomas Edison in the United States, the electric light bulb replaced candles and gas lamps. It extended productive hours and improved safety, fundamentally changing daily life and industry worldwide.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why did the electric light bulb have such a big impact?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It made nights safer and longer for work and activities",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It powered cars",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used to cook food",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved farming techniques"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It made nights safer and longer for work and activities",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "A",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Telephone",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by Alexander Graham Bell in 1876 in the United States, the telephone revolutionized communication by allowing people to talk instantly over long distances. It laid the foundation for modern telecommunications.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What made the telephone revolutionary?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It allowed instant voice communication over distances",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved transportation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a new cooking method",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used in farming"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It allowed instant voice communication over distances",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "T",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 42.3,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -71.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Penicillin",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Discovered by Alexander Fleming in 1928 in the United Kingdom, penicillin became the world’s first widely used antibiotic. It has saved millions of lives by treating bacterial infections effectively.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why is penicillin considered a groundbreaking invention?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It treats bacterial infections and saved millions of lives",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helps with electricity generation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improves farming techniques",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used to build bridges"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It treats bacterial infections and saved millions of lives",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "O",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 51.5,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -0.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Airplane",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "The Wright brothers invented the first powered airplane in 1903 in the United States. This invention made it possible for humans to fly, shrinking the world by enabling faster travel and transport.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was the significance of the airplane?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It enabled humans to fly and travel quickly over long distances",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used to light homes",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped with farming",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a new form of entertainment"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It enabled humans to fly and travel quickly over long distances",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "N",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 41.9,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -87.6</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Internet",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed starting in the late 1960s in the United States, the internet transformed communication, information sharing, and commerce worldwide. It connects billions of people and devices across the globe instantly.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What is one key effect of the internet?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It connects people and information instantly worldwide",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It is a type of transportation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It is a cooking invention",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved farming methods"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It connects people and information instantly worldwide",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "D",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 37.4,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -122.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Compass",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in China during the Han Dynasty (around 206 BCE to 220 CE), the compass helped sailors navigate the seas safely by pointing north. It was essential for exploration and trade.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why was the compass important for sailors?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped them determine direction for safe navigation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped build ships",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a weapon",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a type of food"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It helped them determine direction for safe navigation",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "R",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 34.3,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 108.9</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Paper",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Paper was invented in China around 105 CE and became the primary medium for writing and recording knowledge. This allowed ideas to be shared and preserved much more easily than before.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was the main impact of paper's invention?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It made writing and sharing information easier and more widespread",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used for building homes",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a new food item",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped with transportation"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It made writing and sharing information easier and more widespread",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "I",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 31.2,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 121.5</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Steam Engine",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by James Watt in the United Kingdom in the 18th century, the steam engine powered machines, trains, and ships, driving the Industrial Revolution and transforming economies and societies.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "How did the steam engine change the world?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It powered machines and transportation, fueling industrial growth",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped with farming",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used to cook food",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved communication"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It powered machines and transportation, fueling industrial growth",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "V",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 51.5,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -0.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Camera",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the early 19th century, the camera allowed people to capture moments and images permanently. It revolutionized art, journalism, and personal memories.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was one major effect of the camera's invention?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It allowed people to capture images and moments permanently",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved transportation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used in cooking",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a medical invention"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It allowed people to capture images and moments permanently",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "E",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 48.9,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 2.4</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Electric Motor",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by Michael Faraday in the early 19th century in England, the electric motor converts electrical energy into mechanical motion and powers countless modern machines and devices.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What does an electric motor do?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Converts electrical energy into mechanical motion",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Stores electrical energy",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Generates light",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Transmits messages"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Converts electrical energy into mechanical motion",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "S",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 51.5,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -0.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Vaccination",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed by Edward Jenner in England in 1796, vaccination protects people from infectious diseases by stimulating the immune system, saving countless lives worldwide.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What is the purpose of vaccination?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"To protect people from infectious diseases",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"To cure broken bones",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"To improve vision",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"To clean water"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "To protect people from infectious diseases",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "C",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 51.5,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -0.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Electric Telegraph",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the 1830s by Samuel Morse in the United States, the electric telegraph allowed messages to be sent quickly over long distances using coded signals.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was a key benefit of the electric telegraph?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It enabled rapid communication across long distances",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved farming methods",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It generated electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was used for cooking"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It enabled rapid communication across long distances",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "R",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Radio",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by Guglielmo Marconi in Italy around 1895, radio allowed wireless communication by transmitting sound through electromagnetic waves, transforming media and communication.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why was the invention of the radio important?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It allowed wireless transmission of sound and information",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved transportation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a cooking tool",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It cured diseases"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It allowed wireless transmission of sound and information",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "Y",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 45.1,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 7.7</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Refrigerator",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the 19th century, the refrigerator changed food storage by keeping food fresh longer, reducing waste and improving health worldwide.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What was the main impact of the refrigerator?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It preserved food and reduced spoilage",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It created electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It helped build roads",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a new communication device"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It preserved food and reduced spoilage",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "I",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Automobile",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the late 19th century in Germany by Karl Benz, the automobile transformed transportation by allowing personal, flexible travel across long distances faster than horses.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why was the automobile revolutionary?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It allowed personal and flexible travel over long distances",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved farming",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a cooking invention",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It powered light bulbs"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It allowed personal and flexible travel over long distances",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "S",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 48.8,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 9.2</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Laser",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in 1960 in the United States, the laser produces a focused beam of light used in medicine, communications, and manufacturing.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What is one common use of lasers?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Precision cutting and communication",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Cooking food",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Transportation",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Lighting homes"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Precision cutting and communication",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "O",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 37.4,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -122.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Air Conditioning",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented by Willis Carrier in 1902 in the United States, air conditioning improved indoor comfort by controlling temperature and humidity, impacting health and productivity.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What does air conditioning primarily do?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Controls indoor temperature and humidity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Cools engines",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Heats homes",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Filters water"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Controls indoor temperature and humidity",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "N",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Microscope",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the late 16th century in the Netherlands, the microscope allowed people to see tiny objects and organisms, advancing science and medicine.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "Why was the microscope important for science?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It allowed observation of tiny objects and organisms",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It created electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It improved farming",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"It was a cooking tool"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "It allowed observation of tiny objects and organisms",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "E",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 52.1,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: 4.3</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Solar Cell",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed in the 1950s, solar cells convert sunlight into electricity, offering a renewable energy source crucial for sustainable development.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What is the primary function of a solar cell?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Convert sunlight into electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Store electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Produce heat",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Filter water"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Convert sunlight into electricity",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "R",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 37.4,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -122.1</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Telephone Exchange",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed in the late 19th century, telephone exchanges automated connecting calls, making communication more efficient and accessible.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What problem did telephone exchanges solve?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Automated connection of phone calls",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Improved farming tools",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Produced electricity",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Enhanced printing"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Automated connection of phone calls",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "Y",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Vaccum Cleaner",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Invented in the early 20th century, vacuum cleaners revolutionized cleaning by using suction to remove dirt and dust efficiently.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "How did vacuum cleaners change household cleaning?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"By using suction to clean dirt and dust efficiently",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"By washing floors with water",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"By sweeping dirt manually",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"By improving air quality"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "By using suction to clean dirt and dust efficiently",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "D",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Radio Telescope",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed in the 1930s, radio telescopes allow scientists to observe space using radio waves, greatly expanding our understanding of the universe.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What is the main purpose of a radio telescope?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Observing space using radio waves",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Measuring earthquakes",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Communicating with satellites",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Improving weather forecasts"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Observing space using radio waves",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "I",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 40.7,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -74.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "GPS",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>desc: "Developed by the United States Department of Defense in the 1970s, GPS uses satellites to provide precise location information worldwide, revolutionizing navigation.",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>question: "What does GPS provide to users?",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Precise location and navigation information",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Weather predictions",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Internet access",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"Communication signals"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>answer: "Precise location and navigation information",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clueLetter: "S",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lat: 38.9,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lon: -77.0</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const finalWord = "IMAGINATIONDRIVESDISCOVERY";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let collectedClues = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const progress = new Set();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const map = document.getElementById('map-container');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const infoBox = document.getElementById('info-box');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const infoTitle = document.getElementById('info-title');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const descriptionEl = document.getElementById('description');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const questionEl = document.getElementById('question');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const optionsEl = document.getElementById('options');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const cluesSpan = document.getElementById('clues');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const cluesContainer = document.getElementById('clues-container');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const scoreSpan = document.getElementById('score');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const totalSpan = document.getElementById('total');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const scoreboard = document.getElementById('scoreboard');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let studentName = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Prompt for student name at start</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function askName() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>studentName = prompt("Enter your name to start the Invention Escape Room:")?.trim() || "Student";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updateScore();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updateClues();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderMap();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderMap() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>inventions.forEach((inv, idx) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const btn = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.className = 'marker';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.textContent = idx + 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Map size 2000x1001</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// lat: 90 to -90, lon: -180 to 180</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Convert lat/lon to % on map container</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Top % = (90 - lat)/180 * 100</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Left % = (lon + 180)/360 * 100</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const topPercent = ((90 - inv.lat) / 180) * 100;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const leftPercent = ((inv.lon + 180) / 360) * 100;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.style.top = `${topPercent}%`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.style.left = `${leftPercent}%`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.title = inv.title;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.addEventListener('click', () =&gt; showInfo(idx));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>map.appendChild(btn);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showInfo(index) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const inv = inventions[index];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>infoTitle.textContent = `${index + 1}. ${inv.title}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>descriptionEl.textContent = inv.desc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>questionEl.textContent = inv.question;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>optionsEl.innerHTML = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>inv.options.forEach(opt =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const btn = document.createElement('button');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.className = 'option-btn';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.textContent = opt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>btn.addEventListener('click', () =&gt; checkAnswer(opt, inv, index));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>optionsEl.appendChild(btn);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>infoBox.hidden = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function checkAnswer(selected, invention, index) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (selected === invention.answer) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (!progress.has(index)) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>progress.add(index);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>collectedClues.push(invention.clueLetter);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>updateClues();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>updateScore();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alert('Correct! You have collected a clue letter.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alert('You already answered this correctly.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>infoBox.hidden = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>checkCompletion();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('Sorry, that is incorrect. Try again!');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateClues() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cluesSpan.textContent = collectedClues.join(' ');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cluesContainer.hidden = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateScore() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scoreSpan.textContent = progress.size;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>totalSpan.textContent = inventions.length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scoreboard.hidden = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function checkCompletion() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (progress.size === inventions.length) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>celebrateSuccess();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>showFinalEntry();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function celebrateSuccess() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const confettiCanvas = document.getElementById('confetti-canvas');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>confettiCanvas.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>confetti({</p>
+<p class="p1"><span class="Apple-converted-space">        </span>particleCount: 150,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>spread: 70,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>origin: { y: 0.6 }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showFinalEntry() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>infoBox.hidden = false;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>infoTitle.textContent = `🎉 Congratulations, ${studentName}! You found all clues. 🎉`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>descriptionEl.textContent = "Now unscramble the clue letters to form the final phrase and enter it below.";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>questionEl.textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>optionsEl.innerHTML = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const input = document.createElement('input');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.type = 'text';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.id = 'final-answer';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.placeholder = 'Enter final phrase here';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.style.padding = '8px';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.style.fontSize = '1.1rem';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>input.style.marginTop = '0.5rem';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>optionsEl.appendChild(input);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const submitBtn = document.createElement('button');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.textContent = 'Submit';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.className = 'option-btn';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.style.marginTop = '0.5rem';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const val = input.value.trim().toUpperCase().replace(/\s+/g, '');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (val === finalWord) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>infoTitle.textContent = `🎉 You escaped, ${studentName}! 🎉`;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>descriptionEl.textContent = "Great job solving all the puzzles and escaping the room.";</p>
+<p class="p1"><span class="Apple-converted-space">          </span>questionEl.textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>optionsEl.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showCertificate();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>celebrateSuccess();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alert('That is not correct. Please try again.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>optionsEl.appendChild(submitBtn);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function showCertificate() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const certWindow = window.open('', '_blank');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const date = new Date().toLocaleDateString();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>certWindow.document.write(`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;html&gt;&lt;head&gt;&lt;title&gt;Certificate of Completion&lt;/title&gt;&lt;/head&gt;&lt;body style="font-family: Verdana, sans-serif; background: #fce8e6; color: #5a3e36; text-align:center; padding: 3rem;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h1&gt;Certificate of Completion&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;This certifies that &lt;strong&gt;${studentName}&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;has successfully completed the&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h2&gt;Invention Escape Room&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;on ${date}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;br&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p style="font-style: italic;"&gt;“Imagination Drives Discovery”&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/body&gt;&lt;/html&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>certWindow.document.close();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Initialize</p>
+<p class="p1"><span class="Apple-converted-space">    </span>askName();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
